@@ -22,6 +22,27 @@
       --mono: 'Martian Mono', monospace;
     }
 
+    /* ── LIGHT MODE ── */
+    body.light {
+      --bg: #f4f4f5;
+      --bg2: #ffffff;
+      --border: #e4e4e7;
+      --border2: #d4d4d8;
+      --accent: #6B4FEF;
+      --accent-glow: rgba(107,79,239,0.08);
+      --green: #16a34a;
+      --text: #18181b;
+      --muted: #a1a1aa;
+      --muted2: #71717a;
+    }
+    body.light nav {
+      background: rgba(244,244,245,0.92);
+    }
+    body.light .school-banner {
+      background: rgba(107,79,239,0.05);
+      border-bottom-color: rgba(107,79,239,0.18);
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
@@ -32,6 +53,7 @@
       font-size: 15px;
       line-height: 1.6;
       overflow-x: hidden;
+      transition: background 0.25s, color 0.25s;
     }
 
     /* ── SCHOOL BANNER ── */
@@ -47,6 +69,7 @@
       font-size: 12px;
       color: var(--muted2);
       letter-spacing: 0.05em;
+      transition: background 0.25s;
     }
     .school-banner a {
       color: var(--accent);
@@ -80,6 +103,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      transition: background 0.25s;
     }
     .nav-name {
       font-family: var(--mono);
@@ -100,6 +124,22 @@
       transition: color 0.2s, background 0.2s;
     }
     .nav-links a:hover { color: var(--text); background: var(--bg2); }
+
+    /* ── NAV ACTIONS ── */
+    .nav-actions { display: flex; align-items: center; gap: 4px; margin-left: 10px; }
+    .nav-btn {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      color: var(--muted2);
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      line-height: 1;
+    }
+    .nav-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--bg); }
 
     /* ── LAYOUT ── */
     main { max-width: 820px; margin: 0 auto; padding: 64px 24px 100px; }
@@ -164,7 +204,7 @@
       user-select: none;
     }
     .social-pill svg { width: 15px; height: 15px; flex-shrink: 0; }
-    .social-pill:hover { color: var(--text); background: #181818; }
+    .social-pill:hover { color: var(--text); background: var(--bg); }
     .social-pill.github:hover    { border-color: #ccc;    color: #ccc; }
     .social-pill.instagram:hover { border-color: #E1306C; color: #E1306C; }
     .social-pill.discord:hover   { border-color: #5865F2; color: #5865F2; }
@@ -220,6 +260,52 @@
     }
     .skill-chip:hover { border-color: var(--accent); color: var(--accent); }
     .skill-chip.main { border-color: rgba(123,97,255,0.5); color: var(--accent); background: var(--accent-glow); }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+      display: flex;
+      flex-direction: column;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: var(--border);
+    }
+    .tl-item {
+      position: relative;
+      padding-bottom: 28px;
+    }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -25px;
+      top: 6px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--border2);
+      border: 2px solid var(--bg);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .tl-item:hover::before { background: var(--accent); transform: scale(1.3); }
+    .tl-item.current::before { background: var(--green); animation: pulse 2s infinite; }
+    .tl-year {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-bottom: 3px;
+    }
+    .tl-item.current .tl-year { color: var(--green); }
+    .tl-text { font-size: 14px; color: var(--text); }
+    .tl-sub  { font-size: 12px; color: var(--muted2); margin-top: 2px; }
 
     /* ── REPOS ── */
     .repos-grid {
@@ -326,6 +412,38 @@
     }
     footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
     footer a:hover { color: var(--accent); }
+    .visit-badge { display: flex; align-items: center; opacity: 0.8; }
+    .visit-badge img { border-radius: 4px; }
+
+    /* ── KONAMI TOAST ── */
+    .konami-toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 12px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+      letter-spacing: 0.05em;
+      transition: opacity 0.3s, transform 0.3s;
+      white-space: nowrap;
+    }
+    .konami-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @keyframes particleFall {
+      from { transform: translateY(0) rotate(0deg); opacity: 1; }
+      to   { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
 
     /* ── REVEAL ── */
     .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
@@ -339,16 +457,19 @@
       .nav-links { display: none; }
       main { padding: 40px 16px 80px; }
       .about-card { grid-template-columns: 1fr 1fr; }
-      footer { flex-direction: column; gap: 8px; text-align: center; }
+      footer { flex-direction: column; gap: 10px; text-align: center; }
     }
   </style>
 </head>
 <body>
 
+  <!-- ── KONAMI TOAST ── -->
+  <div id="konami-toast" class="konami-toast"></div>
+
   <!-- ── SCHOOL BANNER ── -->
   <div class="school-banner">
     <div class="pulse-dot"></div>
-    account scolastico →&nbsp;
+    <span data-i18n="banner.text">account scolastico →&nbsp;</span>
     <a href="https://github.com/AlbertoBruscolini" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
       AlbertoBruscolini
@@ -361,9 +482,14 @@
     <ul class="nav-links">
       <li><a href="#about">about</a></li>
       <li><a href="#skills">skills</a></li>
-      <li><a href="#projects">progetti</a></li>
-      <li><a href="#learning">learning</a></li>
+      <li><a href="#story" data-i18n="nav.story">storia</a></li>
+      <li><a href="#projects" data-i18n="nav.projects">progetti</a></li>
+      <li><a href="#learning" data-i18n="nav.learning">learning</a></li>
     </ul>
+    <div class="nav-actions">
+      <button type="button" class="nav-btn" id="lang-btn" onclick="toggleLang()" title="Cambia lingua / Switch language">EN</button>
+      <button type="button" class="nav-btn" id="theme-btn" onclick="toggleTheme()" title="Tema chiaro / scuro">☀</button>
+    </div>
   </nav>
 
   <main>
@@ -372,13 +498,13 @@
     <section class="hero">
       <div class="hero-tag">
         <span class="green-dot"></span>
-        studente · 5° anno informatica
+        <span data-i18n="hero.tag">studente · 5° anno informatica</span>
       </div>
       <h1 class="hero-name">
         <span class="first">Alberto</span>
         <span class="last">Bruscolini.</span>
       </h1>
-      <p class="hero-bio">
+      <p class="hero-bio" data-i18n-html="hero.bio">
         Ciao! Sono uno studente di informatica appassionato di <strong>sviluppo web</strong> e <strong>intelligenza artificiale</strong>. Programmo principalmente in Python, sperimento, sbaglio e imparo — nell'ordine sbagliato.
       </p>
       <div class="social-row">
@@ -396,7 +522,7 @@
         <button class="social-pill discord" onclick="copyDiscord(this)" title="Clicca per copiare il tag Discord">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.055a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
           <span class="discord-tag">albiss</span>
-          <span class="discord-copied">copiato ✓</span>
+          <span class="discord-copied" data-i18n="discord.copied">copiato ✓</span>
         </button>
 
       </div>
@@ -414,23 +540,23 @@
           <span class="about-val">Alberto Bruscolini</span>
         </div>
         <div class="about-item">
-          <span class="about-key">scuola</span>
-          <span class="about-val">5° anno · Informatica</span>
+          <span class="about-key" data-i18n="about.key.school">scuola</span>
+          <span class="about-val" data-i18n="about.val.school">5° anno · Informatica</span>
         </div>
         <div class="about-item">
-          <span class="about-key">città</span>
+          <span class="about-key" data-i18n="about.key.city">città</span>
           <span class="about-val">Bologna 🇮🇹</span>
         </div>
         <div class="about-item">
-          <span class="about-key">status</span>
-          <span class="about-val" style="color:var(--green)">▶ studio &amp; progetto</span>
+          <span class="about-key" data-i18n="about.key.status">status</span>
+          <span class="about-val" data-i18n="about.val.status" style="color:var(--green)">▶ studio &amp; progetto</span>
         </div>
         <div class="about-item">
-          <span class="about-key">interessi</span>
+          <span class="about-key" data-i18n="about.key.interests">interessi</span>
           <span class="about-val">Python · AI · Web</span>
         </div>
         <div class="about-item">
-          <span class="about-key">github scolastico</span>
+          <span class="about-key" data-i18n="about.key.github">github scolastico</span>
           <span class="about-val"><a href="https://github.com/AlbertoBruscolini" style="color:var(--accent);text-decoration:none" target="_blank">AlbertoBruscolini ↗</a></span>
         </div>
       </div>
@@ -454,15 +580,45 @@
       </div>
     </section>
 
+    <!-- ── TIMELINE ── -->
+    <section id="story" class="section reveal">
+      <div class="section-header">
+        <span class="section-label" data-i18n="section.story">la mia storia</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-year">2021</div>
+          <div class="tl-text" data-i18n="tl.2021">Scoperto che i computer non sono magia 🤔</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2022</div>
+          <div class="tl-text" data-i18n="tl.2022">Primo Hello World in Python 🐍</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2023</div>
+          <div class="tl-text" data-i18n="tl.2023">Primo sito web online 🌐</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2024</div>
+          <div class="tl-text" data-i18n="tl.2024">Git, Linux, GitHub 🐧</div>
+        </div>
+        <div class="tl-item current">
+          <div class="tl-year">2025 →</div>
+          <div class="tl-text" data-i18n="tl.2025">Prima AI, primo progetto serio 🤖</div>
+        </div>
+      </div>
+    </section>
+
     <!-- ── PROGETTI ── -->
     <section id="projects" class="section reveal">
       <div class="section-header">
-        <span class="section-label">progetti recenti</span>
+        <span class="section-label" data-i18n="section.projects">progetti recenti</span>
         <div class="section-line"></div>
       </div>
       <div class="repos-grid" id="repos-grid">
         <div class="repos-state">
-          <span style="color:var(--accent)">⟳</span>&nbsp; carico i repository da GitHub...
+          <span style="color:var(--accent)">⟳</span>&nbsp; <span data-i18n="repos.loading">carico i repository da GitHub...</span>
         </div>
       </div>
     </section>
@@ -470,29 +626,29 @@
     <!-- ── LEARNING ── -->
     <section id="learning" class="section reveal">
       <div class="section-header">
-        <span class="section-label">sto imparando</span>
+        <span class="section-label" data-i18n="section.learning">sto imparando</span>
         <div class="section-line"></div>
       </div>
       <div class="learning-list">
         <div class="learning-box">
           <div class="learning-icon">🤖</div>
           <div>
-            <div class="learning-title">Intelligenza Artificiale</div>
-            <div class="learning-desc">Sto studiando come funzionano i modelli di machine learning e costruendo la mia prima AI. Dalla teoria alle reti neurali, un passo alla volta.</div>
+            <div class="learning-title" data-i18n="learning.ai.title">Intelligenza Artificiale</div>
+            <div class="learning-desc" data-i18n="learning.ai.desc">Sto studiando come funzionano i modelli di machine learning e costruendo la mia prima AI. Dalla teoria alle reti neurali, un passo alla volta.</div>
           </div>
         </div>
         <div class="learning-box">
           <div class="learning-icon">🌐</div>
           <div>
-            <div class="learning-title">Web Development</div>
-            <div class="learning-desc">Continuo a migliorare le basi con HTML, CSS e JavaScript. Ogni progetto è un'occasione per fare meglio del precedente.</div>
+            <div class="learning-title" data-i18n="learning.web.title">Web Development</div>
+            <div class="learning-desc" data-i18n="learning.web.desc">Continuo a migliorare le basi con HTML, CSS e JavaScript. Ogni progetto è un'occasione per fare meglio del precedente.</div>
           </div>
         </div>
         <div class="learning-box">
           <div class="learning-icon">🐍</div>
           <div>
-            <div class="learning-title">Python avanzato</div>
-            <div class="learning-desc">Python è il mio linguaggio principale — sto esplorando librerie per il data science, l'automazione e lo sviluppo backend con Flask.</div>
+            <div class="learning-title" data-i18n="learning.py.title">Python avanzato</div>
+            <div class="learning-desc" data-i18n="learning.py.desc">Python è il mio linguaggio principale — sto esplorando librerie per il data science, l'automazione e lo sviluppo backend con Flask.</div>
           </div>
         </div>
       </div>
@@ -501,12 +657,126 @@
   </main>
 
   <footer>
-    <span>Alberto Bruscolini · 2025</span>
-    <span>Bologna 🇮🇹</span>
+    <span data-i18n="footer.left">Alberto Bruscolini · 2025</span>
+    <span class="visit-badge">
+      <img src="https://hits.sh/albertobruscolini.github.io.svg?style=flat-square&label=visite&color=7B61FF&labelColor=555555" alt="visite" height="18" />
+    </span>
     <a href="https://github.com/AlbertoBruscolini" target="_blank" rel="noopener">github.com/AlbertoBruscolini</a>
   </footer>
 
   <script>
+    // ── TRANSLATIONS ──
+    const LANG = {
+      it: {
+        'banner.text':        'account scolastico \u2192\u00a0',
+        'hero.tag':           'studente \u00b7 5\u00b0 anno informatica',
+        'hero.bio':           'Ciao! Sono uno studente di informatica appassionato di <strong>sviluppo web</strong> e <strong>intelligenza artificiale</strong>. Programmo principalmente in Python, sperimento, sbaglio e imparo \u2014 nell\u2019ordine sbagliato.',
+        'nav.story':          'storia',
+        'nav.projects':       'progetti',
+        'nav.learning':       'learning',
+        'section.story':      'la mia storia',
+        'section.projects':   'progetti recenti',
+        'section.learning':   'sto imparando',
+        'about.key.school':   'scuola',
+        'about.val.school':   '5\u00b0 anno \u00b7 Informatica',
+        'about.key.city':     'citt\u00e0',
+        'about.key.status':   'status',
+        'about.val.status':   '\u25b6 studio & progetto',
+        'about.key.interests':'interessi',
+        'about.key.github':   'github scolastico',
+        'discord.copied':     'copiato \u2713',
+        'learning.ai.title':  'Intelligenza Artificiale',
+        'learning.ai.desc':   'Sto studiando come funzionano i modelli di machine learning e costruendo la mia prima AI. Dalla teoria alle reti neurali, un passo alla volta.',
+        'learning.web.title': 'Web Development',
+        'learning.web.desc':  'Continuo a migliorare le basi con HTML, CSS e JavaScript. Ogni progetto \u00e8 un\u2019occasione per fare meglio del precedente.',
+        'learning.py.title':  'Python avanzato',
+        'learning.py.desc':   'Python \u00e8 il mio linguaggio principale \u2014 sto esplorando librerie per il data science, l\u2019automazione e lo sviluppo backend con Flask.',
+        'tl.2021':            'Scoperto che i computer non sono magia \ud83e\udd14',
+        'tl.2022':            'Primo Hello World in Python \ud83d\udc0d',
+        'tl.2023':            'Primo sito web online \ud83c\udf10',
+        'tl.2024':            'Git, Linux, GitHub \ud83d\udc27',
+        'tl.2025':            'Prima AI, primo progetto serio \ud83e\udd16',
+        'footer.left':        'Alberto Bruscolini \u00b7 2025',
+        'konami.msg':         '\ud83c\udfae CHEAT CODE ATTIVATO!',
+      },
+      en: {
+        'banner.text':        'school account \u2192\u00a0',
+        'hero.tag':           'student \u00b7 5th year CS',
+        'hero.bio':           'Hi! I\u2019m a CS student passionate about <strong>web development</strong> and <strong>artificial intelligence</strong>. I mainly code in Python \u2014 I experiment, fail, and learn \u2014 usually in the wrong order.',
+        'nav.story':          'story',
+        'nav.projects':       'projects',
+        'nav.learning':       'learning',
+        'section.story':      'my story',
+        'section.projects':   'recent projects',
+        'section.learning':   'currently learning',
+        'about.key.school':   'school',
+        'about.val.school':   '5th year \u00b7 CS',
+        'about.key.city':     'city',
+        'about.key.status':   'status',
+        'about.val.status':   '\u25b6 studying & building',
+        'about.key.interests':'interests',
+        'about.key.github':   'school github',
+        'discord.copied':     'copied \u2713',
+        'learning.ai.title':  'Artificial Intelligence',
+        'learning.ai.desc':   'I\u2019m studying how machine learning models work and building my first AI. From theory to neural networks, one step at a time.',
+        'learning.web.title': 'Web Development',
+        'learning.web.desc':  'I keep improving my fundamentals with HTML, CSS and JavaScript. Every project is a chance to do better than the last.',
+        'learning.py.title':  'Advanced Python',
+        'learning.py.desc':   'Python is my main language \u2014 I\u2019m exploring libraries for data science, automation, and backend development with Flask.',
+        'tl.2021':            'Discovered computers aren\u2019t magic \ud83e\udd14',
+        'tl.2022':            'First Hello World in Python \ud83d\udc0d',
+        'tl.2023':            'First website live \ud83c\udf10',
+        'tl.2024':            'Git, Linux, GitHub \ud83d\udc27',
+        'tl.2025':            'First AI, first serious project \ud83e\udd16',
+        'footer.left':        'Alberto Bruscolini \u00b7 2025',
+        'konami.msg':         '\ud83c\udfae CHEAT CODE ACTIVATED!',
+      }
+    };
+
+    let currentLang = localStorage.getItem('lang') || 'it';
+
+    function t(key) {
+      return LANG[currentLang][key] || LANG.it[key] || key;
+    }
+
+    function applyLang() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (LANG[currentLang][key] !== undefined) el.textContent = LANG[currentLang][key];
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (LANG[currentLang][key] !== undefined) el.innerHTML = LANG[currentLang][key];
+      });
+      document.documentElement.lang = currentLang;
+    }
+
+    function toggleLang() {
+      currentLang = currentLang === 'it' ? 'en' : 'it';
+      localStorage.setItem('lang', currentLang);
+      document.getElementById('lang-btn').textContent = currentLang === 'it' ? 'EN' : 'IT';
+      applyLang();
+    }
+
+    // ── THEME ──
+    function toggleTheme() {
+      const isLight = document.body.classList.toggle('light');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      document.getElementById('theme-btn').textContent = isLight ? '\u263d' : '\u2600';
+    }
+
+    // ── INIT PREFERENCES ──
+    (function initPrefs() {
+      if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light');
+        document.getElementById('theme-btn').textContent = '\u263d';
+      }
+      if (currentLang === 'en') {
+        document.getElementById('lang-btn').textContent = 'IT';
+        applyLang();
+      }
+    })();
+
     // ── DISCORD COPY ──
     function copyDiscord(btn) {
       navigator.clipboard.writeText('albiss').catch(() => {});
@@ -516,6 +786,44 @@
         btn.querySelector('.discord-tag').classList.remove('hide');
         btn.querySelector('.discord-copied').classList.remove('show');
       }, 2000);
+    }
+
+    // ── KONAMI CODE ── ↑↑↓↓←→←→BA
+    const KONAMI = [38,38,40,40,37,39,37,39,66,65];
+    let konamiProgress = 0;
+    document.addEventListener('keydown', e => {
+      if (e.keyCode === KONAMI[konamiProgress]) {
+        konamiProgress++;
+        if (konamiProgress === KONAMI.length) {
+          konamiProgress = 0;
+          triggerKonami();
+        }
+      } else {
+        konamiProgress = e.keyCode === KONAMI[0] ? 1 : 0;
+      }
+    });
+
+    function triggerKonami() {
+      const particles = ['\ud83c\udfae','\u2b50','\ud83d\udc9c','\ud83d\udc0d','\u2728','\ud83d\ude80','\ud83e\udd16','\ud83c\udf10'];
+      for (let i = 0; i < 40; i++) {
+        const el = document.createElement('div');
+        el.textContent = particles[Math.floor(Math.random() * particles.length)];
+        el.style.cssText = [
+          'position:fixed',
+          'left:' + (Math.random() * 100) + 'vw',
+          'top:-40px',
+          'font-size:' + (14 + Math.random() * 18) + 'px',
+          'z-index:9999',
+          'pointer-events:none',
+          'animation:particleFall ' + (1.2 + Math.random() * 2) + 's ease-in ' + (Math.random() * 0.6) + 's forwards'
+        ].join(';');
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+      const toast = document.getElementById('konami-toast');
+      toast.textContent = t('konami.msg');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
     // ── LANGUAGE COLORS ──
@@ -534,7 +842,10 @@
         const repos = await res.json();
 
         if (!repos.length) {
-          grid.innerHTML = '<div class="repos-error">Nessun repository pubblico ancora. <a href="https://github.com/AlbertoBruscolini" target="_blank">→ Vai al profilo GitHub</a></div>';
+          grid.innerHTML = `<div class="repos-error">${currentLang === 'en'
+            ? 'No public repositories yet. <a href="https://github.com/AlbertoBruscolini" target="_blank">\u2192 Visit GitHub profile</a>'
+            : 'Nessun repository pubblico ancora. <a href="https://github.com/AlbertoBruscolini" target="_blank">\u2192 Vai al profilo GitHub</a>'
+          }</div>`;
           return;
         }
 
@@ -543,8 +854,8 @@
           const color = LANG_COLORS[lang] || '#666';
           const desc  = r.description
             ? r.description
-            : '<span style="color:var(--muted);font-style:italic">nessuna descrizione</span>';
-          const date  = new Date(r.pushed_at).toLocaleDateString('it-IT', { month: 'short', year: 'numeric' });
+            : `<span style="color:var(--muted);font-style:italic">${currentLang === 'en' ? 'no description' : 'nessuna descrizione'}</span>`;
+          const date  = new Date(r.pushed_at).toLocaleDateString(currentLang === 'en' ? 'en-GB' : 'it-IT', { month: 'short', year: 'numeric' });
           return `
             <a href="${r.html_url}" class="repo-card" target="_blank" rel="noopener">
               <div class="repo-name">
@@ -554,18 +865,19 @@
               <div class="repo-desc">${desc}</div>
               <div class="repo-footer">
                 ${lang ? `<span class="repo-lang"><span class="lang-dot" style="background:${color}"></span>${lang}</span>` : ''}
-                ${r.stargazers_count > 0 ? `<span class="repo-stars">★ ${r.stargazers_count}</span>` : ''}
+                ${r.stargazers_count > 0 ? `<span class="repo-stars">\u2605 ${r.stargazers_count}</span>` : ''}
                 <span class="repo-date">${date}</span>
               </div>
             </a>`;
         }).join('');
 
       } catch (e) {
-        grid.innerHTML = `
-          <div class="repos-error">
-            Impossibile caricare i repository in questo momento.<br><br>
-            <a href="https://github.com/AlbertoBruscolini" target="_blank">→ Visita il profilo GitHub direttamente</a>
-          </div>`;
+        grid.innerHTML = `<div class="repos-error">
+          ${currentLang === 'en'
+            ? 'Could not load repositories right now.<br><br><a href="https://github.com/AlbertoBruscolini" target="_blank">\u2192 Visit GitHub profile directly</a>'
+            : 'Impossibile caricare i repository in questo momento.<br><br><a href="https://github.com/AlbertoBruscolini" target="_blank">\u2192 Visita il profilo GitHub direttamente</a>'
+          }
+        </div>`;
       }
     }
 
